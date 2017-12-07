@@ -4,7 +4,7 @@ import $ from 'jquery';
 import css from './chat-ui.css';
 import ChatUI from './chat-ui';
 $(document).ready(function() {
-
+window.scrollTo(0,1);
     var ros = new ROSLIB.Ros();
 
     // If there is an error on the backend, an 'error' emit will be emitted.
@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 
 
-    ros.connect('ws://129.31.198.204:9090');
+    ros.connect('ws://129.31.196.217:9091');
 
 
     var image_listener = new ROSLIB.Topic({
@@ -61,13 +61,21 @@ $(document).ready(function() {
     image_listener.subscribe(function(message) {
         var ImageData1 = "data:image/jpeg;base64," + message.data;
 
-            chat.trigger('add-phrase', '<img id="topImage1img1" class="bubble-image" >');
+            chat.trigger('add-phrase', '<img id="topImage1img1" class="bubble-image" height="450" width="750">');
 
         var displayImage = document.getElementById("topImage1img1");
         console.log(displayImage);
         displayImage.setAttribute('src', ImageData1);
 
     });
+
+
+
+
+    var elem = document.getElementById("chat");
+    console.log("test");
+
+    console.log(elem);
 
     speech_ouput_listner.subscribe(function(message) {
 
@@ -98,7 +106,6 @@ $(document).ready(function() {
 
     var chatMessage = function(msg) {
         console.log(msg);
-
         var msg_ros = new ROSLIB.Message({
             "data": msg
         });

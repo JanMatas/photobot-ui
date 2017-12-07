@@ -1055,9 +1055,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (temporaryPhrase) {
 	                    temporaryPhrase.ref.parentNode.removeChild(temporaryPhrase.ref);
 	                }
+	                if (side != _dialog.SIDE_USER || data.artificial) {
 	                _this.dialogListEl.appendChild(bubbleComponent);
+
+	                }
 	            }
-	            	console.log(data)
+	            console.log(data)
 	            
 	            if (!data.artificial) {
 	            	            if (side === _dialog.SIDE_USER) {

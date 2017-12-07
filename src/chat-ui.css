@@ -148,9 +148,7 @@
   text-align: center;
   cursor: pointer;
 }
-#chat-ui-header .chat-ui-header__close:after {
-  content: '❌';
-}
+
 #chat-ui-input {
   display: table;
   width: 100%;
@@ -306,14 +304,10 @@
      * 1. Correct the inability to style clickable types in iOS and Safari.
      * 2. Change font properties to `inherit` in Safari.
      */
-  position: fixed;
-top: 50%;
-left: 50%;
-margin-top: -350px; /* Negative half of height. */
-margin-left: -350px; /* Negative half of width. */
+
+
   right: 20px;
-  width: 700px;
-  height: 700px;
+  font-size: 14px;
   background-color: #ffffff;
   display: none;
 }
