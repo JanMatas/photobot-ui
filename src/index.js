@@ -26,7 +26,7 @@ window.scrollTo(0,1);
 
 
 
-    ros.connect('ws://129.31.195.253:9091');
+    ros.connect('ws://129.31.183.61:9090');
 
 
     var image_listener = new ROSLIB.Topic({
@@ -35,6 +35,12 @@ window.scrollTo(0,1);
         messageType: 'std_msgs/String'
     });
 
+
+    var filters_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/filters_base64',
+        messageType: 'std_msgs/String'
+    });
 
     var speech_ouput_listner = new ROSLIB.Topic({
         ros: ros,
@@ -70,6 +76,55 @@ window.scrollTo(0,1);
     });
 
 
+    var i = 0;
+    filters_listener.subscribe(function(message) {
+        console.log("Filters received");
+        var ImageData1 = "data:image/jpeg;base64," + message.data;
+        var curr = i++;
+        var obj = JSON.parse(message.data);
+        var img1 = "data:image/jpeg;base64," + obj.imgs[0];
+        var img2 = "data:image/jpeg;base64," + obj.imgs[1];
+        var img3 = "data:image/jpeg;base64," + obj.imgs[2];
+        var img4 = "data:image/jpeg;base64," + obj.imgs[3];
+
+        chat.trigger('add-phrase', ' \
+            <div> \
+                <div> \
+                    <div class="image-container"> \
+                        <div class="image">\
+                            <img src="./robot.jpg" id="filterImg1_' + i +'" class="actual-image" alt="" height="260px" width="310px" />\
+                        </div>\
+                        <h2><span>Epic filter 1:<span class="spacer"></span><br /><span class="spacer"></span>Cartoon</span></h2> \
+                    </div>\
+                    <div class="image-container"> \
+                        <div class="image">\
+                            <img src="./robot.jpg" id="filterImg2_' + i +'" class="actual-image" alt="" height="260px" width="310px" />\
+                        </div>\
+                        <h2><span>Epic filter 2:<span class="spacer"></span><br /><span class="spacer"></span>Pencil Sketch</span></h2> \
+                    </div>\
+                </div> \
+                <div> \
+                    <div class="image-container"> \
+                        <div class="image">\
+                            <img src="./robot.jpg" id="filterImg3_' + i +'" class="actual-image" alt="" height="260px" width="310px" />\
+                        </div>\
+                        <h2><span>Epic filter 3:<span class="spacer"></span><br /><span class="spacer"></span>Black And White</span></h2> \
+                    </div>\
+                    <div class="image-container"> \
+                        <div class="image">\
+                            <img src="./robot.jpg" id="filterImg4_' + i +'" class="actual-image" alt="" height="260px" width="310px" />\
+                        </div>\
+                        <h2><span>Epic filter 4:<span class="spacer"></span><br /><span class="spacer"></span>Vignette</span></h2> \
+                    </div>\
+                </div> \
+            </div> ');
+
+        document.getElementById("filterImg1_" + i).setAttribute('src', img1);
+        document.getElementById("filterImg2_"+ i).setAttribute('src', img2);
+        document.getElementById("filterImg3_"+ i).setAttribute('src', img3);
+        document.getElementById("filterImg4_"+ i).setAttribute('src', img4);
+    });
+
 
 
     var elem = document.getElementById("chat");
@@ -104,11 +159,44 @@ window.scrollTo(0,1);
 
 
 
+
     var chatMessage = function(msg) {
         console.log(msg);
         var msg_ros = new ROSLIB.Message({
             "data": msg
         });
+        chat.trigger('add-phrase', ' \
+            <div> \
+                <div> \
+                    <div class="image-container"> \
+                        <div class="image">\
+                            <img src="./robot.jpg" class="actual-image" alt="" height="380px" width="570px" />\
+                        </div>\
+                        <h2><span>Epic filter 1:<span class="spacer"></span><br /><span class="spacer"></span>Cartoon</span></h2> \
+                    </div>\
+                    <div class="image-container"> \
+                        <div class="image">\
+                            <img src="./robot.jpg" class="actual-image" alt="" height="380px" width="570px" />\
+                        </div>\
+                        <h2><span>Epic filter 2:<span class="spacer"></span><br /><span class="spacer"></span>Sketch</span></h2> \
+                    </div>\
+                </div> \
+                <div> \
+                    <div class="image-container"> \
+                        <div class="image">\
+                            <img src="./robot.jpg" class="actual-image" alt="" height="380px" width="570px" />\
+                        </div>\
+                        <h2><span>Epic filter 3:<span class="spacer"></span><br /><span class="spacer"></span>Black and White</span></h2> \
+                    </div>\
+                    <div class="image-container"> \
+                        <div class="image">\
+                            <img src="./robot.jpg" class="actual-image" alt="" height="380px" width="570px" />\
+                        </div>\
+                        <h2><span>Epic filter 4:<span class="spacer"></span><br /><span class="spacer"></span>Vignette</span></h2> \
+                    </div>\
+                </div> \
+            </div> ');
+
         msgPublisher.publish(msg_ros);
 
     };
